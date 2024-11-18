@@ -1,0 +1,3 @@
+const SERVER_ALIAS = `${process.env.NEXT_PUBLIC_SERVER_API_URL}/${process.env.NEXT_PUBLIC_SERVER_API_PREFIX}/${process.env.NEXT_PUBLIC_SERVER_API_VERSION}`;
+
+export { SERVER_ALIAS };

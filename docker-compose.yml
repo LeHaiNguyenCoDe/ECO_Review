@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  psql-db:
+    image: vanthanhdocker/ecommerce_ehb:db_v1.10
+    container_name: psql-db_v1.10
+    restart: always
+    platform: linux/amd64  # Chỉ định kiến trúc amd64
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=ecommerce
+    ports:
+      - '5433:5432'
+
+  app:
+    image: vanthanhdocker/ecommerce_ehb:v1.10
+    container_name: ecommerce_app_v1.10
+    platform: linux/amd64  # Chỉ định kiến trúc amd64
+    ports:
+      - '9991:9991'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://psql-db_v1.10:5432/ecommerce
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - BREVO_API_KEY=${BREVO_API_KEY}
+      - BREVO_SMTP_PASSWORD=${BREVO_SMTP_PASSWORD}
+      - BREVO_SMTP_USERNAME=${BREVO_SMTP_USERNAME}
+      - GOOGLE_CLIENT_ID=1043977905012-0e77oft7fk3fq0u802k5icb6ec6djd7c.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+    depends_on:
+      - psql-db
